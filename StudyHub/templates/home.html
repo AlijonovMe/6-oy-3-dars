@@ -70,6 +70,7 @@
             position: relative;
             overflow: hidden;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer; /* Making them clickable */
         }
 
         .course-item h4, .student-item h4 {
@@ -78,7 +79,7 @@
             font-weight: bold;
         }
 
-        .course-info, .student-info {
+        .student-info {
             color: #7f8c8d;
             font-size: 14px;
         }
@@ -100,13 +101,13 @@
             text-align: center;
         }
 
-        .student-info h4 {
+        .student-info h4 a, .course-item h4 a {
             margin-top: 10px;
             font-weight: normal;
+            text-decoration: none;
             color: #34495e;
         }
 
-        /* Hover effect for scaling and background dimming */
         .course-item:hover, .student-item:hover {
             transform: scale(1.05);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
@@ -123,22 +124,7 @@
             z-index: -1;
         }
 
-        .extra-info {
-            display: none;
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .course-item:hover .extra-info, .student-item:hover .extra-info {
+        .course-item:hover .student-item:hover {
             display: block;
             opacity: 1;
         }
@@ -158,6 +144,7 @@
                 flex: 1 1 100%;
             }
         }
+
     </style>
 </head>
 <body>
@@ -169,11 +156,8 @@
         <h2 class="section-title">Courses</h2>
         <div class="course-list">
             {% for course in courses %}
-            <div class="course-item">
+            <div class="course-item" onclick="location.href='{% url 'course' course.id %}'">
                 <h4>{{ course.title }}</h4>
-                <div class="course-info">
-                    <p>Created on: <span class="created-at">{{ course.created_at|date:"F j, Y" }}</span></p>
-                </div>
             </div>
             {% endfor %}
         </div>
@@ -183,7 +167,7 @@
         <h2 class="section-title">Students</h2>
         <div class="student-list">
             {% for student in students %}
-            <div class="student-item">
+            <div class="student-item" onclick="location.href='{% url 'student' student.pk %}'">
                 <div class="student-info">
                     {% if student.photo %}
                     <img src="{{ student.photo.url }}" class="student-photo" alt="{{ student.name }}'s photo">
@@ -191,8 +175,6 @@
                     <img src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3383.jpg", class="student-photo", alt="{{ student.name }}">
                     {% endif %}
                     <h4>{{ student.name }}</h4>
-                    <p>{{ student.email }}</p>
-                    <p>Enrolled on: <span class="enrollment-date">{{ student.enrolled_at|date:"F j, Y" }}</span></p>
                 </div>
             </div>
             {% endfor %}

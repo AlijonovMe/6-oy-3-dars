@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link href="{% static 'images/favicon.png' %}" rel="icon">
+    <title>{{ student.name }} - StudyHub</title>
+    <style>
+        body {
+            background-color: #f0f3f5;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            user-select: none;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .student-photo {
+            display: block;
+            margin: 20px auto;
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            border: 4px solid #ddd;
+        }
+
+        .student-info {
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .student-info h4 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #34495e;
+        }
+
+        .student-info p {
+            color: #7f8c8d;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            text-decoration: none;
+            font-style: bold;
+            color: black;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    {% if student.photo %}
+    <img src="{{ student.photo.url }}" class="student-photo" alt="{{ student.name }}'s photo">
+    {% else %}
+    <img src="https://img.freepik.com/premium-vector/default-avatar-profile-icon-social-media-user-image-gray-avatar-icon-blank-profile-silhouette-vector-illustration_561158-3383.jpg", class="student-photo", alt="{{ student.name }}'s photo">
+    {% endif %}
+    <div class="student-info">
+        <h4>{{ student.name }}</h4>
+        <p>Email: {{ student.email }}</p>
+        <p>Enrolled on: {{ student.enrolled_at|date:"F j, Y" }}</p>
+    </div>
+    <a href="{% url 'home' %}" class="back-link">Back to home</a>
+</div>
+
+</body>
+</html>

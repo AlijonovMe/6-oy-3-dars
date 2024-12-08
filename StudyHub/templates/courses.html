@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ course.title }} - StudyHub</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f3f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            user-select: none;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            padding: 30px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .course-info {
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #7f8c8d;
+        }
+
+        h3 {
+            color: #34495e;
+            margin-bottom: 20px;
+            font-size: 22px;
+            border-bottom: 2px solid #2c3e50;
+            padding-bottom: 5px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            background-color: #ffffff;
+            margin: 10px 0;
+            padding: 15px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        li:hover {
+            display: block;
+            opacity: 1;
+        }
+
+        a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #3498db;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            color: black;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>{{ course.title }}</h1>
+
+    <div class="course-info">
+        <h3>Course Information</h3>
+        <p><strong>Description:</strong> {{ course.description }}</p>
+        <p><strong>Created on:</strong> {{ course.created_at|date:"F j, Y" }}</p>
+    </div>
+
+    <h3>Students enrolled in this course</h3>
+    <ul>
+        {% for student in students %}
+        <li class="student-item" data-url="{% url 'student' student.pk %}">
+            <a href="javascript:void(0)">{{ student.name }}</a>
+        </li>
+        {% empty %}
+        <li>No students enrolled in this course yet.</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'home' %}" class="back-link">Back to home</a>
+</div>
+
+<script>
+    document.querySelectorAll('.student-item').forEach(item => {
+        item.addEventListener('click', function() {
+            var url = this.getAttribute('data-url');
+            window.location.href = url;
+        });
+    });
+</script>
+
+</body>
+</html>
